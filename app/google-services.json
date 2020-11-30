@@ -1,0 +1,77 @@
+{
+  "project_info": {
+    "project_number": "815189859121",
+    "firebase_url": "https://barze-451c1.firebaseio.com",
+    "project_id": "barze-451c1",
+    "storage_bucket": "barze-451c1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:815189859121:android:fcdcc25c29b64c93bd2e10",
+        "android_client_info": {
+          "package_name": "com.cmsc436.Barze"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "815189859121-n7r8negheppbe9bg4k2d4h8do26b64r2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDzkBNIdaQgAV6Cpahr5Xcc5GXzpAARXwM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "815189859121-n7r8negheppbe9bg4k2d4h8do26b64r2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:815189859121:android:fda71c8d155a5439bd2e10",
+        "android_client_info": {
+          "package_name": "com.example.barze"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "815189859121-238bs6rn871sl3g92mfce78eu710rqch.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.barze",
+            "certificate_hash": "a3768ee8c659664dde199dab5a5b54ba1a3e95fa"
+          }
+        },
+        {
+          "client_id": "815189859121-n7r8negheppbe9bg4k2d4h8do26b64r2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDzkBNIdaQgAV6Cpahr5Xcc5GXzpAARXwM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "815189859121-n7r8negheppbe9bg4k2d4h8do26b64r2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
