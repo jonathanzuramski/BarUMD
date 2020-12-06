@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Barze</string>
+    <string name="report_wait_btn_txt">Report Wait Time</string>
+    <string name="add_review_btn_txt">Add Review</string>
+    <string name="ask_for_wait_time">Please enter your wait time in minutes:</string>
+    <string name="wait_time_hint">Your wait time</string>
+    <string name="submit">Submit</string>
+    <string name="ask_for_nickname">Your nickname:</string>
+    <string name="nickname_hint">Nickname</string>
+    <string name="ask_for_comment">Comment: (Optional)</string>
+    <string name="comment_hint">Your comment</string>
 </resources>
