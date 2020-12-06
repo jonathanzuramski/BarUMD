@@ -55,7 +55,9 @@ class LoginActivity : AppCompatActivity() {
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
                         Log.d("TAG", "signInWithEmail:success")
+                        val uid = firebaseAuth!!.uid
                         val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                        intent.putExtra("uid",uid)
                         startActivity(intent)
                     } else {
                         Log.e("TAG", "signInWithEmail:failure", task.exception)
