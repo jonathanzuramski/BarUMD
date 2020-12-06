@@ -17,6 +17,8 @@ class Bar : Serializable {
     @Exclude
     var waitInfo : WaitInfo? = null
 
+    constructor()
+
     constructor(name:String, address:String, phone:String, fee:Double, open:String, close:String){
         this.name = name
         this.address = address

@@ -28,6 +28,9 @@
         <activity
             android:name=".SettingsActivity"
             android:label="Preferences" />
+        <activity
+            android:name=".BarDetailActivity"
+            android:label="Preferences" />
     </application>
 
 </manifest>

@@ -3,10 +3,14 @@ package com.example.barze
 import android.app.Activity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import com.bumptech.glide.Glide
 import com.google.firebase.database.*
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.ktx.storage
+
 
 class BarDetailActivity : Activity() {
 
@@ -54,12 +58,17 @@ class BarDetailActivity : Activity() {
         }
 
 
-        // Get image
-        // val imageStorageRef = FirebaseStorage.getInstance().getReference("images")
-        //    .child(bar.name!!).child("banner_img.jpg")
-        // Glide.with(applicationContext).load(imageStorageRef).into(imageView)
+        //Retrieve corresponding image from Firebase Storage
+        val imageStorageRef = FirebaseStorage.getInstance().getReference("images")
+            .child(bar.name!!).child("BarPic.jpg")
+        imageStorageRef.downloadUrl.addOnSuccessListener { Uri->
+            val imageURL = Uri.toString()
 
+            Glide.with(this)
+                .load(imageURL)
+                .into(imageView)
 
+        }
 
     }
 
@@ -67,15 +76,15 @@ class BarDetailActivity : Activity() {
         super.onStart()
 
         // get reviews
-        reviewDatabaseRef.addValueEventListener(object:ValueEventListener{
+        reviewDatabaseRef.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
 
             }
 
             override fun onDataChange(snapshot: DataSnapshot) {
                 reviews.clear()
-                var review : Review? = null
-                for(postSnapshot in snapshot.children){
+                var review: Review? = null
+                for (postSnapshot in snapshot.children) {
                     try {
                         review = postSnapshot.getValue(Review::class.java)
                         reviews.add(review!!)
@@ -91,7 +100,7 @@ class BarDetailActivity : Activity() {
         })
 
         // get wait time
-        waitInfoDatabaseRef.addValueEventListener(object:ValueEventListener{
+        waitInfoDatabaseRef.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
 
             }
@@ -112,8 +121,8 @@ class BarDetailActivity : Activity() {
         })
     }
 
-    fun getTimeString(fourDigit:String) : String {
-        var hour = fourDigit.substring(0,2).toInt()
+    fun getTimeString(fourDigit: String) : String {
+        var hour = fourDigit.substring(0, 2).toInt()
         val min = fourDigit.substring(2).toInt()
         val am = hour < 12
         if (!am){
@@ -142,7 +151,7 @@ class BarDetailActivity : Activity() {
             val waitTime = editTextTime.text.toString().toInt()
             val waitInfo = WaitInfo(waitTime)
             waitInfoDatabaseRef.setValue(waitInfo)
-            Toast.makeText(this,"Reported",Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Reported", Toast.LENGTH_LONG).show()
         }
     }
 
@@ -160,7 +169,7 @@ class BarDetailActivity : Activity() {
         var score = 5
         textViewScore.text = "Your score: $score"
 
-        scoreSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+        scoreSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 score = progress
                 textViewScore.text = "Your score: $score"
@@ -181,11 +190,11 @@ class BarDetailActivity : Activity() {
         buttonSubmit.setOnClickListener{
             val nickname = editTextNickname.text.toString()
             val comment = editTextComment.text.toString()
-            val review = if (comment.isNullOrBlank()) Review(nickname,score)
-                            else Review(nickname,score,comment)
+            val review = if (comment.isNullOrBlank()) Review(nickname, score)
+                            else Review(nickname, score, comment)
             val key = reviewDatabaseRef.push().key
             reviewDatabaseRef.child(key!!).setValue(review)
-            Toast.makeText(this,"Reported",Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Reported", Toast.LENGTH_LONG).show()
         }
     }
 
