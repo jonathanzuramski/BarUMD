@@ -20,17 +20,21 @@ class MainActivity : AppCompatActivity() {
     private lateinit var userFavoritesRef : DatabaseReference
     private lateinit var userFavoriteList : ArrayList<String>
     private var favoriteOn = false
+    private var favInited = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         barsDatabase = FirebaseDatabase.getInstance().getReference("bars")
+        userFavoritesRef = FirebaseDatabase.getInstance().getReference(uid)
 
         toolbar = findViewById<Toolbar>(R.id.toolbar)
         listViewBars = findViewById(R.id.listViewBars)
 
-        bars = ArrayList<Bar>()
+        bars = ArrayList()
+        userFavoriteList = ArrayList()
+        
         // get stored user account
         uid = intent.getStringExtra("uid")
 
@@ -45,21 +49,6 @@ class MainActivity : AppCompatActivity() {
 
                     // if currently shows all bars
                     if (!favoriteOn){
-                        // get user favorite list
-                        if (userFavoriteList == null){
-                            userFavoritesRef = FirebaseDatabase.getInstance().getReference(uid)
-                            userFavoritesRef.addListenerForSingleValueEvent(object:ValueEventListener(){
-                                override fun onCancelled(error: DatabaseError) {
-                                }
-
-                                override fun onDataChange(snapshot: DataSnapshot) {
-                                    userFavoriteList = snapshot.getValue<ArrayList<String>>()
-                                }
-                            })
-                        }
-                        if (userFavoriteList == null) {
-                            userFavoriteList = ArrayList()
-                        }
                         val barAdapter = BarAdapter(this@MainActivity, favFilter(bars))
                         listViewBars.adapter = barAdapter
                         favoriteOn = true
@@ -103,6 +92,19 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        // long click to add favorite
+        listViewBars.onItemLongClickListener = AdapterView.OnItemLongClickListener{adapterView, view, i, l ->
+            val bar = bars[i]
+
+            // add fav to local
+            userFavoriteList.add(bar.name!!)
+
+            // add fav to database
+            userFavoritesRef.setValue(userFavoriteList)
+
+            true
+        }
+
     }
 
     override fun onStart(){
@@ -129,6 +131,16 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
+        })
+
+        // get user favorite list
+        userFavoritesRef.addListenerForSingleValueEvent(object:ValueEventListener(){
+            override fun onCancelled(error: DatabaseError) {
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                userFavoriteList = snapshot.getValue<ArrayList<String>>()
+            }
         })
 
 
