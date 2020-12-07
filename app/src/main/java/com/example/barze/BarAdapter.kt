@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.graphics.Color
+import android.net.Uri
 import android.renderscript.Sampler
 import android.view.LayoutInflater
 import android.view.View
@@ -26,7 +27,6 @@ class BarAdapter(private val context: Activity, private var bars: List<Bar>) : A
         val textViewRating = listViewItem.findViewById<View>(R.id.bar_rating) as TextView
         val textViewStatus = listViewItem.findViewById<View>(R.id.bar_status) as TextView
         val imageView = listViewItem.findViewById<View>(R.id.bar_demo_pic) as ImageView
-
 
         val bar = bars[position]
         //val imageStorageRef = FirebaseStorage.getInstance().getReference("images")

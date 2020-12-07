@@ -1,6 +1,7 @@
 package com.example.barze
 
 import android.app.Activity
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.widget.*
@@ -16,6 +17,7 @@ import com.google.firebase.storage.FirebaseStorage
 class BarDetailActivity : Activity() {
 
     private lateinit var bar : Bar
+    private lateinit var rating: RatingBar
     private lateinit var reviewListView : ListView
     private lateinit var reviews : MutableList<Review>
     private lateinit var waitTimeTextView : TextView
@@ -36,10 +38,15 @@ class BarDetailActivity : Activity() {
         val feeTextView = findViewById<TextView>(R.id.detail_fee)
         val hoursTextView = findViewById<TextView>(R.id.detail_hours)
         val statusTextView = findViewById<TextView>(R.id.detail_status)
+        rating = findViewById<RatingBar>(R.id.detail_rating)
         val reportWaitBtn = findViewById<Button>(R.id.report_wait_btn)
         val reviewBtn = findViewById<Button>(R.id.add_review_btn)
         val imageView = findViewById<ImageView>(R.id.detail_pic)
+<<<<<<< HEAD
         val favoriteBtn = findViewById<Button>(R.id.favButton)
+=======
+        val logoView = findViewById<ImageView>(R.id.logo)
+>>>>>>> 9d84c3804fe6dc1591ae75bdc7ecfd08ac49af76
         reviewListView = findViewById(R.id.review_list)
         waitTimeTextView = findViewById(R.id.detail_wait_time)
 
@@ -61,7 +68,14 @@ class BarDetailActivity : Activity() {
         phoneTextView.text = bar.phone
         feeTextView.text = "$${bar.fee}"
         hoursTextView.text = "Opens ${getTimeString(bar.open!!)} - ${getTimeString(bar.close!!)}"
-        statusTextView.text = if (bar.isBarOpen()) "OPENING" else "CLOSED"
+        val barOpen = bar.isBarOpen()
+        statusTextView.text = if (barOpen) "OPENING" else "CLOSED"
+        statusTextView.setTextColor(if (barOpen) Color.GREEN else Color.RED)
+        if(bar.getRating() == "No Rating") {
+            rating.numStars = 0
+        } else {
+            rating.numStars = bar.getRating().toFloat().toInt()
+        }
         reportWaitBtn.setOnClickListener{
             reportWaitTime()
         }
@@ -218,7 +232,14 @@ class BarDetailActivity : Activity() {
                             else Review(nickname, score, comment)
             val key = reviewDatabaseRef.push().key
             reviewDatabaseRef.child(key!!).setValue(review)
-            Toast.makeText(this, "Reported", Toast.LENGTH_LONG).show()
+
+            // update rating score
+            bar.updateRating(score)
+            rating.numStars = bar.getRating().toFloat().toInt()
+
+            val barDatabaseRef = FirebaseDatabase.getInstance().getReference("bars").child(bar.name!!)
+            barDatabaseRef.setValue(bar)
+            Toast.makeText(this, "Review Submitted", Toast.LENGTH_LONG).show()
         }
     }
 

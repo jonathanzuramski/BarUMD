@@ -1,48 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="15dp">
 
     <TextView
-        android:text="@string/ask_for_nickname"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:text="@string/ask_for_nickname" />
 
     <EditText
         android:id="@+id/review_nickname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/nickname_hint"
-        android:inputType="text"/>
+        android:inputType="text" />
 
     <TextView
         android:id="@+id/review_dialog_score"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
+
     <SeekBar
         android:id="@+id/score_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:max="5"
         android:min="1"
-        android:progress="5"
-        />
+        android:progress="5" />
+
     <TextView
-        android:text="@string/ask_for_comment"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:text="@string/ask_for_comment" />
+
     <EditText
         android:id="@+id/review_dialog_comment"
         android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:hint="@string/comment_hint"/>
+        android:layout_height="wrap_content"
+        android:hint="@string/comment_hint" />
 
     <Button
         android:id="@+id/review_submit_btn"
+        style="?android:attr/buttonBarButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        style="?android:attr/buttonBarButtonStyle"
         android:text="@string/submit" />
 
 </LinearLayout>

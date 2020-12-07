@@ -1,0 +1,37 @@
+Index: local.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>## This file must *NOT* be checked into Version Control Systems,\r\n# as it contains information specific to your local configuration.\r\n#\r\n# Location of the SDK. This is only used by Gradle.\r\n# For customization when using a Version Control System, please read the\r\n# header note.\r\n#Sun Dec 06 14:50:53 EST 2020\r\nsdk.dir=/Users/xavierwarmerdam/Library/Android/sdk\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>windows-1252
+===================================================================
+--- local.properties	(revision 37786bff08113499a4c82f1b4a478a3ad8b8effe)
++++ local.properties	(date 1607303740140)
+@@ -4,5 +4,5 @@
+ # Location of the SDK. This is only used by Gradle.
+ # For customization when using a Version Control System, please read the
+ # header note.
+-#Sun Dec 06 14:50:53 EST 2020
+-sdk.dir=/Users/xavierwarmerdam/Library/Android/sdk
++#Sun Dec 06 20:15:40 EST 2020
++sdk.dir=C\:\\Users\\jonni\\AppData\\Local\\Android\\Sdk
+Index: .idea/libraries/Gradle__com_firebaseui_firebase_ui_storage_3_2_1_aar.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><component name=\"libraryTable\">\r\n  <library name=\"Gradle: com.firebaseui:firebase-ui-storage:3.2.1@aar\">\r\n    <CLASSES>\r\n      <root url=\"file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/6eaebfd2cd3043df0c276f9da0c25f5e/jetified-firebase-ui-storage-3.2.1/AndroidManifest.xml\" />\r\n      <root url=\"jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/6eaebfd2cd3043df0c276f9da0c25f5e/jetified-firebase-ui-storage-3.2.1/jars/classes.jar!/\" />\r\n      <root url=\"file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/6eaebfd2cd3043df0c276f9da0c25f5e/jetified-firebase-ui-storage-3.2.1/res\" />\r\n    </CLASSES>\r\n    <JAVADOC>\r\n      <root url=\"jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.firebaseui/firebase-ui-storage/3.2.1/e116501220660b94c3a35793c640ea8e2fd7c260/firebase-ui-storage-3.2.1-javadoc.jar!/\" />\r\n    </JAVADOC>\r\n    <SOURCES>\r\n      <root url=\"jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.firebaseui/firebase-ui-storage/3.2.1/7be26719fa6f95f841267bc885af0432b75bfe4/firebase-ui-storage-3.2.1-sources.jar!/\" />\r\n    </SOURCES>\r\n  </library>\r\n</component>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/libraries/Gradle__com_firebaseui_firebase_ui_storage_3_2_1_aar.xml	(revision 37786bff08113499a4c82f1b4a478a3ad8b8effe)
++++ .idea/libraries/Gradle__com_firebaseui_firebase_ui_storage_3_2_1_aar.xml	(date 1607303799480)
+@@ -4,6 +4,10 @@
+       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/6eaebfd2cd3043df0c276f9da0c25f5e/jetified-firebase-ui-storage-3.2.1/AndroidManifest.xml" />
+       <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/6eaebfd2cd3043df0c276f9da0c25f5e/jetified-firebase-ui-storage-3.2.1/jars/classes.jar!/" />
+       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/6eaebfd2cd3043df0c276f9da0c25f5e/jetified-firebase-ui-storage-3.2.1/res" />
++      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/5814e693588569acebdc287f335133b8/jetified-firebase-ui-storage-3.2.1/res" />
++      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/18ae809161a7bf693948a7453a4c3058/jetified-firebase-ui-storage-3.2.1/jars/classes.jar!/" />
++      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/18ae809161a7bf693948a7453a4c3058/jetified-firebase-ui-storage-3.2.1/res" />
++      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/18ae809161a7bf693948a7453a4c3058/jetified-firebase-ui-storage-3.2.1/AndroidManifest.xml" />
+     </CLASSES>
+     <JAVADOC>
+       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.firebaseui/firebase-ui-storage/3.2.1/e116501220660b94c3a35793c640ea8e2fd7c260/firebase-ui-storage-3.2.1-javadoc.jar!/" />
