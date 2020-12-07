@@ -1,5 +1,6 @@
 package com.example.barze
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
@@ -20,7 +21,9 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         if (firebaseAuth.currentUser != null) {
-            startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+            val intent = Intent(this@LoginActivity, MainActivity::class.java)
+            intent.putExtra("uid",firebaseAuth!!.uid)
+            startActivity(intent)
             finish()
         }
         setContentView(R.layout.activity_login)
@@ -44,6 +47,7 @@ class LoginActivity : AppCompatActivity() {
 
 
     }
+
 
     private fun loginUser() {
         val email = emailText.text.toString()

@@ -12,13 +12,14 @@ import android.widget.*
 
 class MainActivity : AppCompatActivity() {
 
-    protected lateinit var sharedPreferences: SharedPreferences
     private lateinit var toolbar: Toolbar
     private var uid: String? = null
     private lateinit var listViewBars : ListView
-    private lateinit var bars : MutableList<Bar>
+    private lateinit var bars : ArrayList<Bar>
     private lateinit var barsDatabase: DatabaseReference
-    private lateinit var userFavorites : DatabaseReference
+    private lateinit var userFavoritesRef : DatabaseReference
+    private lateinit var userFavoriteList : ArrayList<String>
+    private var favoriteOn = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,10 +27,12 @@ class MainActivity : AppCompatActivity() {
 
         barsDatabase = FirebaseDatabase.getInstance().getReference("bars")
 
-        sharedPreferences = getSharedPreferences("accountInfo", Context.MODE_PRIVATE)
         toolbar = findViewById<Toolbar>(R.id.toolbar)
         listViewBars = findViewById(R.id.listViewBars)
+
         bars = ArrayList<Bar>()
+        // get stored user account
+        uid = intent.getStringExtra("uid")
 
         toolbar.inflateMenu(R.menu.main_menu)
         toolbar.setOnMenuItemClickListener{ item ->
@@ -37,14 +40,46 @@ class MainActivity : AppCompatActivity() {
 
                 R.id.setting -> {startActivity(Intent(this@MainActivity, SettingsActivity::class.java));
                     true}
-                /*
-                R.id.addBar -> {
-                    val bar = Bar("testBar", "123 Abc St", "123-456-7890",
-                        5.0,"1700","2330")
-                    barsDatabase.child(bar.name!!).setValue(bar)
+
+                R.id.favorite -> {
+
+                    // if currently shows all bars
+                    if (!favoriteOn){
+                        // get user favorite list
+                        if (userFavoriteList == null){
+                            userFavoritesRef = FirebaseDatabase.getInstance().getReference(uid)
+                            userFavoritesRef.addListenerForSingleValueEvent(object:ValueEventListener(){
+                                override fun onCancelled(error: DatabaseError) {
+                                }
+
+                                override fun onDataChange(snapshot: DataSnapshot) {
+                                    userFavoriteList = snapshot.getValue<ArrayList<String>>()
+                                }
+                            })
+                        }
+                        if (userFavoriteList == null) {
+                            userFavoriteList = ArrayList()
+                        }
+                        val barAdapter = BarAdapter(this@MainActivity, favFilter(bars))
+                        listViewBars.adapter = barAdapter
+                        favoriteOn = true
+
+                        // change text of menu item
+                        item.title = "Show All"
+                    } else {
+                        // When currently show favorite only
+
+                        val barAdapter = BarAdapter(this@MainActivity, bars)
+                        listViewBars.adapter = barAdapter
+                        favoriteOn = false
+
+                        // change text of menu item
+                        item.title = "Show Favorite Only"
+                    }
+
                     true
                 }
-                */
+
                 else -> true
             }
 
@@ -54,8 +89,7 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        // get stored user account
-        uid = sharedPreferences.getString("uid",null)
+
 
         // set click listners
         listViewBars.onItemClickListener = AdapterView.OnItemClickListener { adapterView, view, i, l ->
@@ -90,7 +124,7 @@ class MainActivity : AppCompatActivity() {
                     } catch (e: Exception) {
                         Log.e("TAG", e.toString())
                     }
-                    val barAdapter = BarAdapter(this@MainActivity, bars)
+                    val barAdapter = BarAdapter(this@MainActivity, if (favoriteOn) favFilter(bars) else bars)
                     listViewBars.adapter = barAdapter
                 }
             }
@@ -99,6 +133,16 @@ class MainActivity : AppCompatActivity() {
 
 
 
+    }
+
+    fun favFilter(bars:ArrayList<Bar>):ArrayList<Bar> {
+        val filtered = ArrayList<Bar>()
+        for (bar in bars){
+            if (userFavoriteList!!.contains(bar.name)) {
+                filtered.add(bar)
+            }
+        }
+        return filtered
     }
 
 

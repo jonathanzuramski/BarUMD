@@ -5,5 +5,8 @@
         android:id="@+id/setting"
         android:title="Settings" />
 
+    <item
+        android:id="@+id/favorite"
+        android:title="Show Favorite Only"/>
 
 </menu>
