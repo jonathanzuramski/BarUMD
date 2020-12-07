@@ -11,13 +11,13 @@
         android:id="@+id/bar_name"
         android:layout_width="143dp"
         android:layout_height="34dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="12dp"
         android:text="Looney's Pub"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintBottom_toTopOf="@+id/bar_address"
         app:layout_constraintEnd_toStartOf="@+id/bar_demo_pic"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/bar_demo_pic"
@@ -31,19 +31,20 @@
 
     <TextView
         android:id="@+id/bar_address"
-        android:layout_width="125dp"
-        android:layout_height="28dp"
-        android:layout_marginTop="56dp"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         android:text="TextView"
         android:textAlignment="center"
         app:layout_constraintEnd_toStartOf="@+id/bar_demo_pic"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/bar_name" />
 
     <TextView
         android:id="@+id/bar_rating"
         android:layout_width="125dp"
         android:layout_height="28dp"
+        android:layout_marginTop="8dp"
         android:text="TextView"
         android:textAlignment="center"
         app:layout_constraintEnd_toStartOf="@+id/bar_demo_pic"

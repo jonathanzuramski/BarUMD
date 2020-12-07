@@ -42,11 +42,8 @@ class BarDetailActivity : Activity() {
         val reportWaitBtn = findViewById<Button>(R.id.report_wait_btn)
         val reviewBtn = findViewById<Button>(R.id.add_review_btn)
         val imageView = findViewById<ImageView>(R.id.detail_pic)
-<<<<<<< HEAD
         val favoriteBtn = findViewById<Button>(R.id.favButton)
-=======
         val logoView = findViewById<ImageView>(R.id.logo)
->>>>>>> 9d84c3804fe6dc1591ae75bdc7ecfd08ac49af76
         reviewListView = findViewById(R.id.review_list)
         waitTimeTextView = findViewById(R.id.detail_wait_time)
 

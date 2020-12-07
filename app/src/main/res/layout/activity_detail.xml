@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<<<<<<< HEAD
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-=======
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
->>>>>>> 9d84c3804fe6dc1591ae75bdc7ecfd08ac49af76
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/relativeLayout2"
@@ -60,8 +56,8 @@
 
     <TextView
         android:id="@+id/detail_address"
-        android:layout_width="182dp"
-        android:layout_height="32dp"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:text="7325 Baltimore Ave, College Park, MD 20740"
@@ -85,7 +81,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:text="Bar Cover: $5"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textSize="18sp"
@@ -94,7 +90,7 @@
 
     <TextView
         android:id="@+id/detail_hours"
-        android:layout_width="wrap_content"
+        android:layout_width="170dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
@@ -175,19 +171,15 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/logo" />
 
-<<<<<<< HEAD
     <Button
         android:id="@+id/favButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="140dp"
-        android:layout_marginTop="290dp"
-        android:text="Add Favorite" />
+        android:text="Add Favorite"
+        tools:layout_editor_absoluteX="284dp"
+        tools:layout_editor_absoluteY="1dp" />
 
-
-</RelativeLayout>
-=======
 </androidx.constraintlayout.widget.ConstraintLayout>
->>>>>>> 9d84c3804fe6dc1591ae75bdc7ecfd08ac49af76
+

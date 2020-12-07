@@ -35,7 +35,7 @@ class Bar : Serializable {
         val currLocTime = Calendar.getInstance(TimeZone.getTimeZone("America/New_York")).time
         val timeH = dateFormatH.format(currLocTime)
         val timeMin = dateFormatm.format(currLocTime)
-        val currTime = (timeH + timeMin).toInt()
+        var currTime = (timeH + timeMin).toInt()
         var closeTime : Int = close!!.toInt()
         
         // if the bar closes after midnight
