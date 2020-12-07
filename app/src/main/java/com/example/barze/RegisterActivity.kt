@@ -22,6 +22,7 @@ class RegisterActivity : AppCompatActivity() {
     lateinit var lastNameText : EditText
     lateinit var emailText : EditText
     lateinit var passwordText : EditText
+    private lateinit var usersDatabaseRef : DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +33,7 @@ class RegisterActivity : AppCompatActivity() {
         lastNameText = findViewById(R.id.last_name)
         emailText = findViewById(R.id.editTextEmail)
         passwordText = findViewById(R.id.editTextPassword)
+        usersDatabaseRef = FirebaseDatabase.getInstance().getReference("users")
 
 
         mDatabase = FirebaseDatabase.getInstance()
@@ -64,6 +66,7 @@ class RegisterActivity : AppCompatActivity() {
                         val currentUserDb = mDatabaseReference!!.child(userId)
                         currentUserDb.child("firstName").setValue(first)
                         currentUserDb.child("lastName").setValue(last)
+                        usersDatabaseRef.push().setValue(userId)
                         val intent = Intent(this@RegisterActivity, MainActivity::class.java)
                         startActivity(intent)
                     } else {
@@ -76,5 +79,6 @@ class RegisterActivity : AppCompatActivity() {
         } else {
             Toast.makeText(this, "Enter all details", Toast.LENGTH_SHORT).show()
         }
+
     }
 }

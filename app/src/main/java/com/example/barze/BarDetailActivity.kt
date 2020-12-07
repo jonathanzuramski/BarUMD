@@ -6,10 +6,11 @@ import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import com.bumptech.glide.Glide
+import com.google.firebase.FirebaseError
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.ktx.storage
 
 
 class BarDetailActivity : Activity() {
@@ -20,6 +21,8 @@ class BarDetailActivity : Activity() {
     private lateinit var waitTimeTextView : TextView
     private lateinit var waitInfoDatabaseRef : DatabaseReference
     private lateinit var reviewDatabaseRef : DatabaseReference
+    private lateinit var usersDatabaseRef : DatabaseReference
+    private lateinit var uid : String
 
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
@@ -36,11 +39,20 @@ class BarDetailActivity : Activity() {
         val reportWaitBtn = findViewById<Button>(R.id.report_wait_btn)
         val reviewBtn = findViewById<Button>(R.id.add_review_btn)
         val imageView = findViewById<ImageView>(R.id.detail_pic)
+        val favoriteBtn = findViewById<Button>(R.id.favButton)
         reviewListView = findViewById(R.id.review_list)
         waitTimeTextView = findViewById(R.id.detail_wait_time)
 
         waitInfoDatabaseRef = FirebaseDatabase.getInstance().getReference("waitInfo").child(bar.name!!)
         reviewDatabaseRef = FirebaseDatabase.getInstance().getReference("reviews").child(bar.name!!)
+        val user = FirebaseAuth.getInstance().currentUser
+        if (user != null) {
+            uid = user.uid
+
+
+        }
+        usersDatabaseRef = FirebaseDatabase.getInstance().getReference("users").child(uid)
+
 
         reviews = ArrayList()
 
@@ -70,10 +82,22 @@ class BarDetailActivity : Activity() {
 
         }
 
+
+
+
+       favoriteBtn.setOnClickListener{
+           val key =usersDatabaseRef.push().key
+           usersDatabaseRef.child(key!!).setValue(bar.name)
+       }
+
+
     }
+
+
 
     override fun onStart() {
         super.onStart()
+
 
         // get reviews
         reviewDatabaseRef.addValueEventListener(object : ValueEventListener {

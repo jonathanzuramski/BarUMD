@@ -9,12 +9,15 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 
 class LoginActivity : AppCompatActivity() {
     private val firebaseAuth = FirebaseAuth.getInstance()
     lateinit var emailText : EditText
     lateinit var passText : EditText
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +32,7 @@ class LoginActivity : AppCompatActivity() {
         val registerButton = findViewById<Button>(R.id.button2)
         emailText = findViewById<EditText>(R.id.editTextTextEmailAddress)
         passText = findViewById<EditText>(R.id.editTextTextPassword)
+
 
 
 

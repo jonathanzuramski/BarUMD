@@ -9,6 +9,7 @@ import android.util.Log
 import androidx.appcompat.widget.Toolbar;
 import com.google.firebase.database.*
 import android.widget.*
+import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,19 +18,30 @@ class MainActivity : AppCompatActivity() {
     private var uid: String? = null
     private lateinit var listViewBars : ListView
     private lateinit var bars : MutableList<Bar>
+    var favs : MutableList<String> = ArrayList<String>()
     private lateinit var barsDatabase: DatabaseReference
-    private lateinit var userFavorites : DatabaseReference
+    lateinit var favDatabase: DatabaseReference
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         barsDatabase = FirebaseDatabase.getInstance().getReference("bars")
+        favDatabase =  FirebaseDatabase.getInstance().getReference("users")
 
         sharedPreferences = getSharedPreferences("accountInfo", Context.MODE_PRIVATE)
         toolbar = findViewById<Toolbar>(R.id.toolbar)
         listViewBars = findViewById(R.id.listViewBars)
         bars = ArrayList<Bar>()
+
+        val user = FirebaseAuth.getInstance().currentUser
+        if (user != null) {
+            uid = user.uid
+
+
+        }
 
         toolbar.inflateMenu(R.menu.main_menu)
         toolbar.setOnMenuItemClickListener{ item ->
@@ -45,13 +57,15 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 */
+                R.id.favorites -> {startActivity(Intent(this@MainActivity, FavoritesActivity::class.java))
+                    true}
                 else -> true
             }
         }
 
 
         // get stored user account
-        uid = sharedPreferences.getString("uid",null)
+//        uid = sharedPreferences.getString("uid",null)
 
         // set click listners
         listViewBars.onItemClickListener = AdapterView.OnItemClickListener { adapterView, view, i, l ->
@@ -65,10 +79,13 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+
     }
 
     override fun onStart(){
         super.onStart()
+
+
 
         barsDatabase.addValueEventListener(object: ValueEventListener{
             override fun onCancelled(error: DatabaseError) {
@@ -82,7 +99,8 @@ class MainActivity : AppCompatActivity() {
                 for(postSnapshot in snapshot.children){
                     try {
                         bar = postSnapshot.getValue(Bar::class.java)
-                        bars.add(bar!!)
+
+                            bars.add(bar!!)
                     } catch (e: Exception) {
                         Log.e("TAG", e.toString())
                     }
@@ -96,6 +114,8 @@ class MainActivity : AppCompatActivity() {
 
 
     }
+
+
 
 
 }

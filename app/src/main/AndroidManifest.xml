@@ -30,6 +30,9 @@
         <activity
             android:name=".BarDetailActivity"
             android:label="Preferences" />
+        <activity
+            android:name=".FavoritesActivity"
+            android:label="Preferences" />
     </application>
 
 </manifest>
