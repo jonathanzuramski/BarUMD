@@ -1,6 +1,7 @@
 package com.example.barze
 
 import android.app.Activity
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.widget.*
@@ -15,6 +16,7 @@ import com.google.firebase.storage.ktx.storage
 class BarDetailActivity : Activity() {
 
     private lateinit var bar : Bar
+    private lateinit var rateTextView: TextView
     private lateinit var reviewListView : ListView
     private lateinit var reviews : MutableList<Review>
     private lateinit var waitTimeTextView : TextView
@@ -33,6 +35,7 @@ class BarDetailActivity : Activity() {
         val feeTextView = findViewById<TextView>(R.id.detail_fee)
         val hoursTextView = findViewById<TextView>(R.id.detail_hours)
         val statusTextView = findViewById<TextView>(R.id.detail_status)
+        rateTextView = findViewById<TextView>(R.id.detail_rating)
         val reportWaitBtn = findViewById<Button>(R.id.report_wait_btn)
         val reviewBtn = findViewById<Button>(R.id.add_review_btn)
         val imageView = findViewById<ImageView>(R.id.detail_pic)
@@ -49,7 +52,10 @@ class BarDetailActivity : Activity() {
         phoneTextView.text = bar.phone
         feeTextView.text = "$${bar.fee}"
         hoursTextView.text = "Opens ${getTimeString(bar.open!!)} - ${getTimeString(bar.close!!)}"
-        statusTextView.text = if (bar.isBarOpen()) "OPENING" else "CLOSED"
+        val barOpen = bar.isBarOpen()
+        statusTextView.text = if (barOpen) "OPENING" else "CLOSED"
+        statusTextView.setTextColor(if (barOpen) Color.GREEN else Color.RED)
+        rateTextView.text = bar.getRating()
         reportWaitBtn.setOnClickListener{
             reportWaitTime()
         }
@@ -194,7 +200,14 @@ class BarDetailActivity : Activity() {
                             else Review(nickname, score, comment)
             val key = reviewDatabaseRef.push().key
             reviewDatabaseRef.child(key!!).setValue(review)
-            Toast.makeText(this, "Reported", Toast.LENGTH_LONG).show()
+
+            // update rating score
+            bar.updateRating(score)
+            rateTextView.text = bar.getRating()
+
+            val barDatabaseRef = FirebaseDatabase.getInstance().getReference("bars").child(bar.name!!)
+            barDatabaseRef.setValue(bar)
+            Toast.makeText(this, "Review Submitted", Toast.LENGTH_LONG).show()
         }
     }
 
