@@ -50,10 +50,4 @@ class Bar : Serializable {
         val rating:Double = totalScore.toDouble() / totalRates
         return "%.2f".format(rating)
     }
-
-    @Exclude
-    fun updateRating(score:Int){
-        totalRates++
-        totalScore += score
-    }
 }
