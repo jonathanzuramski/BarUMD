@@ -35,11 +35,20 @@ class Bar : Serializable {
         val currLocTime = Calendar.getInstance(TimeZone.getTimeZone("America/New_York")).time
         val timeH = dateFormatH.format(currLocTime)
         val timeMin = dateFormatm.format(currLocTime)
-        var closeTime : Int? = null
+        val currTime = (timeH + timeMin).toInt()
+        var closeTime : Int = close!!.toInt()
+        
+        // if the bar closes after midnight
         if (close!! <= open!!){
-            closeTime = close!!.toInt() + 2400
+            closeTime += 2400
+        } 
+        
+        // if current time is after midnight (and before 6am)
+        if (currTime < 600){
+            currTime += 2400
         }
-        return closeTime!! - (timeH+timeMin).toInt() > 0
+        
+        return closeTime > currTime && currTime > open!!.toInt()
     }
 
     @Exclude
