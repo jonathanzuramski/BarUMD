@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
 
         bars = ArrayList()
         userFavoriteList = ArrayList()
-        
+
         // get stored user account
         uid = intent.getStringExtra("uid")
 
@@ -95,13 +95,24 @@ class MainActivity : AppCompatActivity() {
         // long click to add favorite
         listViewBars.onItemLongClickListener = AdapterView.OnItemLongClickListener{adapterView, view, i, l ->
             val bar = bars[i]
+            if (userFavoriteList.contains(bar.name!!)){
+                // cancel favorite
+                userFavoriteList.remove(bar.name!!)
 
-            // add fav to local
-            userFavoriteList.add(bar.name!!)
+                // update to database
+                userFavoritesRef.setValue(userFavoriteList)
 
-            // add fav to database
-            userFavoritesRef.setValue(userFavoriteList)
+                // TODO UI Change to a gray star
 
+            } else {
+                // add fav to local
+                userFavoriteList.add(bar.name!!)
+
+                // add fav to database
+                userFavoritesRef.setValue(userFavoriteList)
+
+                // TODO UI Change to a gold star
+            }
             true
         }
 
