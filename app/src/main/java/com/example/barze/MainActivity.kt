@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
 
 //        uid = intent.getStringExtra("uid")!!
         barsDatabase = FirebaseDatabase.getInstance().getReference("bars")
-        userFavoritesRef = FirebaseDatabase.getInstance().getReference(uid)
+        userFavoritesRef = FirebaseDatabase.getInstance().getReference("users").child(uid)
 
         toolbar = findViewById<Toolbar>(R.id.toolbar)
         listViewBars = findViewById(R.id.listViewBars)
