@@ -12,7 +12,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 
-
+//Login Activity from tutorial found at: https://medium.com/@sfazleyrabbi/firebase-login-and-registration-authentication-99ea25388cbf
 class LoginActivity : AppCompatActivity() {
     private val firebaseAuth = FirebaseAuth.getInstance()
     lateinit var emailText : EditText
@@ -22,6 +22,7 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        //checks if user is logged in
         if (firebaseAuth.currentUser != null) {
             startActivity(Intent(this@LoginActivity, MainActivity::class.java))
             finish()
@@ -37,6 +38,7 @@ class LoginActivity : AppCompatActivity() {
 
 
 
+        //Button listeners for Login and Register
         loginButton.setOnClickListener{
             loginUser();
         }
@@ -53,6 +55,7 @@ class LoginActivity : AppCompatActivity() {
         val email = emailText.text.toString()
         val password = passText.text.toString()
 
+        //checks if user is registered
         if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
             Log.d("TAG", "Logging in user.")
             firebaseAuth!!.signInWithEmailAndPassword(email!!, password!!)
