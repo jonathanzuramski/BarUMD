@@ -21,10 +21,10 @@ class BarDetailActivity : Activity() {
     private lateinit var reviewListView : ListView
     private lateinit var reviews : MutableList<Review>
     private lateinit var waitTimeTextView : TextView
+    private lateinit var feeTextView : TextView
     private lateinit var waitInfoDatabaseRef : DatabaseReference
     private lateinit var barInfoDatabase: DatabaseReference
     private lateinit var reviewDatabaseRef : DatabaseReference
-    private lateinit var usersDatabaseRef : DatabaseReference
     private lateinit var uid : String
 
     override fun onCreate(savedInstanceState: Bundle?){
@@ -36,12 +36,13 @@ class BarDetailActivity : Activity() {
         val nameTextView = findViewById<TextView>(R.id.detail_name)
         val addressTextView = findViewById<TextView>(R.id.detail_address)
         val phoneTextView = findViewById<TextView>(R.id.detail_phone)
-        val feeTextView = findViewById<TextView>(R.id.detail_fee)
+        feeTextView = findViewById<TextView>(R.id.detail_fee)
         val hoursTextView = findViewById<TextView>(R.id.detail_hours)
         val statusTextView = findViewById<TextView>(R.id.detail_status)
         rating = findViewById<RatingBar>(R.id.detail_rating)
         val reportWaitBtn = findViewById<Button>(R.id.report_wait_btn)
         val reviewBtn = findViewById<Button>(R.id.add_review_btn)
+        val coverBtn = findViewById<Button>(R.id.cover_button)
         val imageView = findViewById<ImageView>(R.id.detail_pic)
         val logoView = findViewById<ImageView>(R.id.logo)
         reviewListView = findViewById(R.id.review_list)
@@ -49,14 +50,11 @@ class BarDetailActivity : Activity() {
 
         waitInfoDatabaseRef = FirebaseDatabase.getInstance().getReference("waitInfo").child(bar.name!!)
         reviewDatabaseRef = FirebaseDatabase.getInstance().getReference("reviews").child(bar.name!!)
-        barInfoDatabase = FirebaseDatabase.getInstance().getReference("bars").child(bar.name!!).child("fee")
+        barInfoDatabase = FirebaseDatabase.getInstance().getReference("bars").child(bar.name!!)
         val user = FirebaseAuth.getInstance().currentUser
         if (user != null) {
             uid = user.uid
-
-
         }
-        usersDatabaseRef = FirebaseDatabase.getInstance().getReference("users").child(uid)
 
 
         reviews = ArrayList()
@@ -79,6 +77,9 @@ class BarDetailActivity : Activity() {
         }
         reviewBtn.setOnClickListener{
             addReview()
+        }
+        coverBtn.setOnClickListener{
+            reportCoverCharge()
         }
 
 
@@ -140,22 +141,16 @@ class BarDetailActivity : Activity() {
                 }
             }
         })
-//
-//        // get cover charge
-//            barInfoDatabase.addValueEventListener(object : ValueEventListener {
-//            override fun onCancelled(error: DatabaseError) {
-//            }
-//            override fun onDataChange(snapshot: DataSnapshot) {
-//                val waitInfo = snapshot.getValue(WaitInfo::class.java)
-//                // update text views
-//                if (waitInfo != null && System.currentTimeMillis() - waitInfo.reportTime < ONE_HOUR) {
-//                    // only valid if last report is within 1 hour
-//                    waitTimeTextView.text = "Wait time: ${waitInfo.waitTime} min"
-//                } else {
-//                    waitTimeTextView.text = "No Wait Info"
-//                }
-//            }
-//        })
+
+        // listen on changes on bar info
+        barInfoDatabase.addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(error: DatabaseError){}
+            override fun onDataChange(snapshot: DataSnapshot){
+                bar = snapshot.getValue(Bar::class.java)
+                updateStarAndCover()
+            }
+        })
+        
 
     }
 
@@ -196,23 +191,23 @@ class BarDetailActivity : Activity() {
         }
     }
 
-    private fun addCoverCharge() {
+    private fun reportCoverCharge() {
         val dialogBuilder = AlertDialog.Builder(this)
         val inflater = layoutInflater
         val dialogView = inflater.inflate(R.layout.cover_layout, null)
         dialogBuilder.setView(dialogView)
 
-        val editTextTime = dialogView.findViewById(R.id.cover_text) as EditText
+        val editTextCharge = dialogView.findViewById(R.id.cover_text) as EditText
         val buttonSubmit = dialogView.findViewById(R.id.cover_button) as Button
 
-        dialogBuilder.setTitle("Report Wait Time")
+        dialogBuilder.setTitle("Report Cover Charge")
         val b = dialogBuilder.create()
         b.show()
 
         buttonSubmit.setOnClickListener{
-            val waitTime = editTextTime.text.toString().toInt()
-            val waitInfo = WaitInfo(waitTime)
-            waitInfoDatabaseRef.setValue(waitInfo)
+            val coverCharge = editTextCharge.text.toString().toDouble()
+            bar.fee = coverCharge
+            barInfoDatabase.setValue(bar)
             Toast.makeText(this, "Reported", Toast.LENGTH_LONG).show()
         }
     }
@@ -265,6 +260,12 @@ class BarDetailActivity : Activity() {
             barDatabaseRef.setValue(bar)
             Toast.makeText(this, "Review Submitted", Toast.LENGTH_LONG).show()
         }
+    }
+    
+    
+    private fun updateStarAndCover() {
+        rating.numStarts = bar.getRating().toFloat().toInt()
+        feeTextView.text = "$${bar.fee}0"
     }
 
     companion object{
