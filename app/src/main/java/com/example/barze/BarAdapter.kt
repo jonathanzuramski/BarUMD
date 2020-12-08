@@ -16,7 +16,7 @@ import com.bumptech.glide.Glide
 import com.google.firebase.storage.FirebaseStorage
 
 
-class BarAdapter(private val context: Activity, private var bars: List<Bar>) : ArrayAdapter<Bar>(context,
+class BarAdapter(private val context: Activity, var bars: ArrayList<Bar>) : ArrayAdapter<Bar>(context,
     R.layout.bar_item, bars) {
 
     @SuppressLint("InflateParams", "ViewHolder")
@@ -50,12 +50,11 @@ class BarAdapter(private val context: Activity, private var bars: List<Bar>) : A
                 .into(imageView)
 
         }
-
-
         return listViewItem
-
-
-
-
     }
+
+    fun getBar(i: Int): Bar{
+        return bars[i]
+    }
+
 }

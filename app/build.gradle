@@ -5,12 +5,12 @@ apply plugin: 'com.google.gms.google-services'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 29
     buildToolsVersion "30.0.2"
 
     defaultConfig {
         applicationId "com.example.barze"
-        minSdkVersion 23
+        minSdkVersion 26
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"

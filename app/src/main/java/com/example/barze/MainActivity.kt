@@ -103,7 +103,8 @@ class MainActivity : AppCompatActivity() {
 
         // long click to add favorite
         listViewBars.onItemLongClickListener = AdapterView.OnItemLongClickListener{adapterView, view, i, l ->
-            val bar = bars[i]
+            val barAdapter = listViewBars.adapter as BarAdapter
+            val bar = barAdapter.getBar(i)
             if (userFavoriteList.contains(bar.name!!)){
                 // cancel favorite
                 userFavoriteList.remove(bar.name!!)
@@ -111,7 +112,10 @@ class MainActivity : AppCompatActivity() {
                 // update to database
                 userFavoritesRef.setValue(userFavoriteList)
 
-
+                if(favoriteOn) {
+                    barAdapter.bars.remove(bar)
+                    barAdapter.notifyDataSetChanged()
+                }
 
             } else {
                 // add fav to local

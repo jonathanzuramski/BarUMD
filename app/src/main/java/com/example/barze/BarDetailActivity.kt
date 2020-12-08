@@ -146,7 +146,7 @@ class BarDetailActivity : Activity() {
         barInfoDatabase.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(error: DatabaseError){}
             override fun onDataChange(snapshot: DataSnapshot){
-                bar = snapshot.getValue(Bar::class.java)
+                bar = snapshot.getValue(Bar::class.java)!!
                 updateStarAndCover()
             }
         })
@@ -264,8 +264,12 @@ class BarDetailActivity : Activity() {
     
     
     private fun updateStarAndCover() {
-        rating.numStarts = bar.getRating().toFloat().toInt()
+        if (bar.getRating() == "No Rating") {
+            rating.numStars = 0
+        } else {
+            rating.numStars = bar.getRating().toFloat().toInt()
         feeTextView.text = "$${bar.fee}0"
+        }
     }
 
     companion object{

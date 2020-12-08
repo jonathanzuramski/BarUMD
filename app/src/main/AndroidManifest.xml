@@ -12,7 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,7 +23,7 @@
             android:name=".RegisterActivity"
             android:label="Preferences" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".MainActivity"
             android:label="Preferences" />
         <activity
             android:name=".SettingsActivity"
@@ -31,9 +31,7 @@
         <activity
             android:name=".BarDetailActivity"
             android:label="Preferences" />
-        <activity
-            android:name=".FavoritesActivity"
-            android:label="Preferences" />
+
     </application>
 
 </manifest>
