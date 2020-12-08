@@ -33,11 +33,7 @@ class LoginActivity : AppCompatActivity() {
         val registerButton = findViewById<Button>(R.id.button2)
         emailText = findViewById<EditText>(R.id.editTextTextEmailAddress)
         passText = findViewById<EditText>(R.id.editTextTextPassword)
-
-
-
-
-
+        
         //Button listeners for Login and Register
         loginButton.setOnClickListener{
             loginUser();
@@ -57,23 +53,20 @@ class LoginActivity : AppCompatActivity() {
 
         //checks if user is registered
         if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
-            Log.d("TAG", "Logging in user.")
             firebaseAuth!!.signInWithEmailAndPassword(email!!, password!!)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
-                        Log.d("TAG", "signInWithEmail:success")
                         val uid = firebaseAuth!!.uid
                         val intent = Intent(this@LoginActivity, MainActivity::class.java)
                         intent.putExtra("uid",uid)
                         startActivity(intent)
                     } else {
-                        Log.e("TAG", "signInWithEmail:failure", task.exception)
-                        Toast.makeText(this@LoginActivity, "Authentication failed.",
+                        Toast.makeText(this@LoginActivity, "Authentication was not achieved.",
                             Toast.LENGTH_SHORT).show()
                     }
                 }
         } else {
-            Toast.makeText(this, "Enter all details", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Enter data in all fields", Toast.LENGTH_SHORT).show()
         }
     }
 

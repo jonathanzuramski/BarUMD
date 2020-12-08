@@ -58,12 +58,8 @@ class RegisterActivity : AppCompatActivity() {
             mAuth!!
                 .createUserWithEmailAndPassword(email!!, pass!!)
                 .addOnCompleteListener(this) { task ->
-//                    mProgressBar!!.hide()
                     if (task.isSuccessful) {
-                        // Sign in success, update UI with the signed-in user's information
-                        Log.d("TAG", "createUserWithEmail:success")
                         val userId = mAuth!!.currentUser!!.uid
-                        //Verify Email
                         val currentUserDb = mDatabaseReference!!.child(userId)
                         currentUserDb.child("firstName").setValue(first)
                         currentUserDb.child("lastName").setValue(last)
@@ -71,14 +67,12 @@ class RegisterActivity : AppCompatActivity() {
                         val intent = Intent(this@RegisterActivity, MainActivity::class.java)
                         startActivity(intent)
                     } else {
-                        // If sign in fails, display a message to the user.
-                        Log.w("TAG", "createUserWithEmail:failure", task.exception)
                         Toast.makeText(this@RegisterActivity, "Authentication failed.",
                             Toast.LENGTH_SHORT).show()
                     }
                 }
         } else {
-            Toast.makeText(this, "Enter all details", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Enter data in all fields", Toast.LENGTH_SHORT).show()
         }
 
     }
