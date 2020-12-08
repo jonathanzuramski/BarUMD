@@ -12,7 +12,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 
-//Login Activity from tutorial found at: https://medium.com/@sfazleyrabbi/firebase-login-and-registration-authentication-99ea25388cbf
+//Login Activity inspired by tutorial found at: https://medium.com/@sfazleyrabbi/firebase-login-and-registration-authentication-99ea25388cbf
 class LoginActivity : AppCompatActivity() {
     private val firebaseAuth = FirebaseAuth.getInstance()
     lateinit var emailText : EditText
@@ -33,7 +33,7 @@ class LoginActivity : AppCompatActivity() {
         val registerButton = findViewById<Button>(R.id.button2)
         emailText = findViewById<EditText>(R.id.editTextTextEmailAddress)
         passText = findViewById<EditText>(R.id.editTextTextPassword)
-        
+
         //Button listeners for Login and Register
         loginButton.setOnClickListener{
             loginUser();

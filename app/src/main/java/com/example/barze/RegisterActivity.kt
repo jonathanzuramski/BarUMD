@@ -12,7 +12,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 
-//Register Activity from tutorial found at: https://medium.com/@sfazleyrabbi/firebase-login-and-registration-authentication-99ea25388cbf
+//Register Activity inspired by tutorial found at: https://medium.com/@sfazleyrabbi/firebase-login-and-registration-authentication-99ea25388cbf
 class RegisterActivity : AppCompatActivity() {
 
     private var mDatabaseReference: DatabaseReference? = null
