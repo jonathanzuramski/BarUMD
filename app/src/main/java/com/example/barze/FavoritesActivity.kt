@@ -15,7 +15,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 
 class FavoritesActivity  : AppCompatActivity(){
-
     private lateinit var userFavorites : DatabaseReference
     private lateinit var bars : MutableList<Bar>
     private lateinit var listViewBars : ListView

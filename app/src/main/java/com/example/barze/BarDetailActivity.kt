@@ -22,6 +22,7 @@ class BarDetailActivity : Activity() {
     private lateinit var reviews : MutableList<Review>
     private lateinit var waitTimeTextView : TextView
     private lateinit var waitInfoDatabaseRef : DatabaseReference
+    private lateinit var barInfoDatabase: DatabaseReference
     private lateinit var reviewDatabaseRef : DatabaseReference
     private lateinit var usersDatabaseRef : DatabaseReference
     private lateinit var uid : String
@@ -42,13 +43,13 @@ class BarDetailActivity : Activity() {
         val reportWaitBtn = findViewById<Button>(R.id.report_wait_btn)
         val reviewBtn = findViewById<Button>(R.id.add_review_btn)
         val imageView = findViewById<ImageView>(R.id.detail_pic)
-        val favoriteBtn = findViewById<Button>(R.id.favButton)
         val logoView = findViewById<ImageView>(R.id.logo)
         reviewListView = findViewById(R.id.review_list)
         waitTimeTextView = findViewById(R.id.detail_wait_time)
 
         waitInfoDatabaseRef = FirebaseDatabase.getInstance().getReference("waitInfo").child(bar.name!!)
         reviewDatabaseRef = FirebaseDatabase.getInstance().getReference("reviews").child(bar.name!!)
+        barInfoDatabase = FirebaseDatabase.getInstance().getReference("bars").child(bar.name!!).child("fee")
         val user = FirebaseAuth.getInstance().currentUser
         if (user != null) {
             uid = user.uid
@@ -63,7 +64,7 @@ class BarDetailActivity : Activity() {
         nameTextView.text = bar.name
         addressTextView.text = bar.address
         phoneTextView.text = bar.phone
-        feeTextView.text = "$${bar.fee}"
+        feeTextView.text = "$${bar.fee}0"
         hoursTextView.text = "Opens ${getTimeString(bar.open!!)} - ${getTimeString(bar.close!!)}"
         val barOpen = bar.isBarOpen()
         statusTextView.text = if (barOpen) "OPENING" else "CLOSED"
@@ -92,16 +93,6 @@ class BarDetailActivity : Activity() {
                 .into(imageView)
 
         }
-
-
-
-
-       favoriteBtn.setOnClickListener{
-           val key =usersDatabaseRef.push().key
-           usersDatabaseRef.child(key!!).setValue(bar.name)
-       }
-
-
     }
 
 
@@ -137,23 +128,35 @@ class BarDetailActivity : Activity() {
         // get wait time
         waitInfoDatabaseRef.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
-
             }
-
             override fun onDataChange(snapshot: DataSnapshot) {
                 val waitInfo = snapshot.getValue(WaitInfo::class.java)
-                bar.waitInfo = waitInfo
-
                 // update text views
                 if (waitInfo != null && System.currentTimeMillis() - waitInfo.reportTime < ONE_HOUR) {
                     // only valid if last report is within 1 hour
-                    waitTimeTextView.text = "${waitInfo.waitTime} min"
+                    waitTimeTextView.text = "Wait time: ${waitInfo.waitTime} min"
                 } else {
-                    waitTimeTextView.text = "No Info"
+                    waitTimeTextView.text = "No Wait Info"
                 }
             }
-
         })
+//
+//        // get cover charge
+//            barInfoDatabase.addValueEventListener(object : ValueEventListener {
+//            override fun onCancelled(error: DatabaseError) {
+//            }
+//            override fun onDataChange(snapshot: DataSnapshot) {
+//                val waitInfo = snapshot.getValue(WaitInfo::class.java)
+//                // update text views
+//                if (waitInfo != null && System.currentTimeMillis() - waitInfo.reportTime < ONE_HOUR) {
+//                    // only valid if last report is within 1 hour
+//                    waitTimeTextView.text = "Wait time: ${waitInfo.waitTime} min"
+//                } else {
+//                    waitTimeTextView.text = "No Wait Info"
+//                }
+//            }
+//        })
+
     }
 
     fun getTimeString(fourDigit: String) : String {
@@ -166,6 +169,9 @@ class BarDetailActivity : Activity() {
         if (hour == 0){
             hour = 12
         }
+        if(min < 10) {
+            return "$hour:0$min ${if(am) "AM" else "PM"}"
+        }
         return "$hour:$min ${if(am) "AM" else "PM"}"
     }
 
@@ -177,6 +183,27 @@ class BarDetailActivity : Activity() {
 
         val editTextTime = dialogView.findViewById(R.id.report_dialog_text) as EditText
         val buttonSubmit = dialogView.findViewById(R.id.wait_time_submit_btn) as Button
+
+        dialogBuilder.setTitle("Report Wait Time")
+        val b = dialogBuilder.create()
+        b.show()
+
+        buttonSubmit.setOnClickListener{
+            val waitTime = editTextTime.text.toString().toInt()
+            val waitInfo = WaitInfo(waitTime)
+            waitInfoDatabaseRef.setValue(waitInfo)
+            Toast.makeText(this, "Reported", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun addCoverCharge() {
+        val dialogBuilder = AlertDialog.Builder(this)
+        val inflater = layoutInflater
+        val dialogView = inflater.inflate(R.layout.cover_layout, null)
+        dialogBuilder.setView(dialogView)
+
+        val editTextTime = dialogView.findViewById(R.id.cover_text) as EditText
+        val buttonSubmit = dialogView.findViewById(R.id.cover_button) as Button
 
         dialogBuilder.setTitle("Report Wait Time")
         val b = dialogBuilder.create()

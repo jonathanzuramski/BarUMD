@@ -10,4 +10,6 @@
     <string name="nickname_hint">Nickname</string>
     <string name="ask_for_comment">Comment: (Optional)</string>
     <string name="comment_hint">Your comment</string>
+    <string name="add_cover">Cover Amount (Dollars)</string>
+    <string name="cover_text">Add the amount you paid in cover:</string>
 </resources>

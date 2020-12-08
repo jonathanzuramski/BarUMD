@@ -23,8 +23,7 @@ class ReviewAdapter (private val context: Activity, private var reviews: List<Re
 
         val review = reviews[position]
         textViewUser.text = review.user
-        textViewScore.text = "rating"
-//        "Score: ${"%.1f".format(review.score)}"
+        textViewScore.text = "Rating: ${review.score}"
         textViewComment.text = review.comment
         return listViewItem
     }

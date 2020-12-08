@@ -12,6 +12,8 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import com.bumptech.glide.Glide
+import com.google.firebase.storage.FirebaseStorage
 
 
 class BarAdapter(private val context: Activity, private var bars: List<Bar>) : ArrayAdapter<Bar>(context,
@@ -37,7 +39,23 @@ class BarAdapter(private val context: Activity, private var bars: List<Bar>) : A
         val isOpen = bar.isBarOpen()
         textViewStatus.text = if (isOpen) "OPEN" else "CLOSED"
         textViewStatus.setTextColor(if (isOpen) Color.GREEN else Color.RED)
-        //Glide.with(context).load(imageStorageRef).into(imageView)
+
+        val imageStorageRef = FirebaseStorage.getInstance().getReference("images")
+            .child(bar.name!!).child("BarPic.jpg")
+        imageStorageRef.downloadUrl.addOnSuccessListener { Uri->
+            val imageURL = Uri.toString()
+
+            Glide.with(context)
+                .load(imageURL)
+                .into(imageView)
+
+        }
+
+
         return listViewItem
+
+
+
+
     }
 }
